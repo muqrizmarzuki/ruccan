@@ -1,10 +1,8 @@
 'use client'
 
-import {
-  BellOutlined,
-} from '@ant-design/icons'
-import { Badge, Dropdown, Space, List, Typography } from 'antd'
-import type { MenuProps } from 'antd'
+import { Badge, Dropdown, Space, List, Typography, Flex } from 'antd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
 
 const { Text } = Typography
 
@@ -40,10 +38,10 @@ const NotificationList = () => (
           <List.Item.Meta
             title={<Text strong>{item.title}</Text>}
             description={
-              <div className="flex justify-between text-xs text-gray-500">
-                <span>{item.description}</span>
-                <span className="whitespace-nowrap">{item.time}</span>
-              </div>
+              <Flex className="!justify-between !text-gray-500">
+                <Text className='!text-xs'>{item.description}</Text>
+                <Text className="!whitespace-nowrap !text-xs">{item.time}</Text>
+              </Flex>
             }
           />
         </List.Item>
@@ -62,7 +60,7 @@ const BellNotification = () => {
     >
       <Space className="cursor-pointer relative">
         <Badge count={notifications.length} size="small" offset={[-2, 2]}>
-          <BellOutlined style={{ fontSize: 20, color: 'black' }} />
+          <FontAwesomeIcon icon={faBell} style={{ fontSize: 20, color: 'black' }} />
         </Badge>
       </Space>
     </Dropdown>

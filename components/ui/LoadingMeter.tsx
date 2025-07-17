@@ -1,4 +1,7 @@
 import React from 'react';
+import { Flex, Typography, Divider, Layout, Button, Row, Col, Image } from 'antd';
+
+const { Title, Text } = Typography;
 
 type LoadingMeterProps = {
     title: string,
@@ -11,24 +14,26 @@ const LoadingMeter: React.FC<LoadingMeterProps> = ({ title = "Title", progress =
 
     const barProgress = (progress * 100) / total;
 
-    if(progress > total) return <p className='text-red-500'>Progress is more than total</p>
+    if (progress > total) return <Text className='!text-red-500'>Progress is more than total</Text>
 
     return (
-        <div className="flex flex-col gap-2 w-full max-w-md mb-2">
+        <Flex vertical gap={2} className="!w-full !max-w-md !mb-2">
             {/* Header Row */}
-            <div className="flex flex-row justify-between text-sm font-medium text-gray-700">
-                <span>{`${title}: `}</span>
-                <span>{`${progress}/${total}`}</span>
-            </div>
+            <Row className="flex flex-row justify-between text-sm font-medium text-gray-700">
+                <Col span={24}>
+                    <Text className='!text-xs'>{`${title}: `}</Text>
+                    <Text className='!text-xs'>{`${progress}/${total}`}</Text>
+                </Col>
+            </Row>
 
             {/* Progress Bar */}
             <div className="w-full h-3 bg-gray-200 rounded-full border overflow-hidden">
                 <div
-                    className="h-full bg-[#b64fb1] rounded-full transition-all duration-500"
+                    className="h-full bg-[#602FD0] rounded-full transition-all duration-500"
                     style={{ width: `${barProgress}%` }}
                 ></div>
             </div>
-        </div>
+        </Flex>
     );
 };
 

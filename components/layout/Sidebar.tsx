@@ -1,20 +1,15 @@
 'use client'
 
-import { Drawer, Menu, Divider, Avatar, Typography } from 'antd'
+import { Drawer, Menu, Avatar, Typography, Image, Flex, Row, Col } from 'antd'
 import {
-  HomeOutlined,
-  MessageOutlined,
   UserOutlined,
-  BookOutlined,
-  ApiOutlined,
-  WalletOutlined,
-  SettingOutlined,
-  QuestionCircleOutlined,
-  LogoutOutlined,
   LeftOutlined
 } from '@ant-design/icons'
 import { useRouter } from 'next/navigation'
 import type { SidebarProps } from '@/types/sidebar'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome, faComment, faUserAlt, faQuestionCircle, faPlug, faWallet, faCog, faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 const { Text } = Typography
 
@@ -56,107 +51,122 @@ const Sidebar = ({ open = false, setOpen = () => { } }: SidebarProps) => {
       </button>
 
       {/* Top: Avatar/Profile */}
-      <div className="flex items-center gap-3 px-4 py-4 border-b border-gray-200">
-        <Avatar size="large" icon={<UserOutlined />} />
-        <div>
-          <div className="text-xs text-gray-500">PRODUCT MANAGER</div>
-          <Text strong>Amirul Baharuddin</Text>
-        </div>
-      </div>
+      <Flex className="!items-center !gap-3 !px-4 !py-4 !border-b !border-gray-200">
+        <Image
+          src="/user.svg"
+          width={25}
+          preview={false}
+          className="!mx-auto !my-auto"
+          alt="Ruccan AI Labs"
+        />
+        <Row className='!ps-1'>
+          <Col span={24}>
+            <Text className="!text-xs !text-gray-500">PRODUCT MANAGER</Text>
+          </Col>
+          <Col span={24}>
+            <Text strong>Amirul Baharuddin</Text>
+          </Col>
+        </Row>
+      </Flex>
 
       {/* Main Menu */}
-      <div className='border-b border-gray-200'>
-        <p className='px-7 pt-3 text-gray-500 text-xs text-bold'>MAIN</p>
-        <Menu
-          mode="inline"
-          onClick={handleClick}
-          items={[
-            {
-              key: '/dashboard',
-              icon: <HomeOutlined />,
-              label: 'Dashboard',
-            },
-            {
-              key: '/chat',
-              icon: <MessageOutlined />,
-              label: 'Ruccan Chat',
-            },
-            {
-              key: '/persona',
-              icon: <UserOutlined />,
-              label: 'Persona',
-            },
-            {
-              key: '/knowledge',
-              icon: <BookOutlined />,
-              label: 'Knowledge',
-            },
-            {
-              key: '/integration',
-              icon: <ApiOutlined />,
-              label: 'Integration',
-            },
-            {
-              key: '/wallet',
-              icon: <WalletOutlined />,
-              label: 'Wallet',
-            },
-          ]}
-        />
-      </div>
+      <Row className='border-b border-gray-200'>
+        <Col span={24} className='!pt-3'>
+          <Text className='!px-7 !text-gray-500 !text-xs !text-bold'>MAIN</Text>
+          <Menu
+            mode="inline"
+            className="!border-r-0"
+            onClick={handleClick}
+            items={[
+              {
+                key: '/user',
+                icon: <FontAwesomeIcon icon={faHome} />,
+                label: 'Dashboard',
+              },
+              {
+                key: '/user/chat',
+                icon: <FontAwesomeIcon icon={faComment} />,
+                label: 'Ruccan Chat',
+              },
+              {
+                key: '/user/persona',
+                icon: <FontAwesomeIcon icon={faUserAlt} />,
+                label: 'Persona',
+              },
+              {
+                key: '/user/knowledge',
+                icon: <FontAwesomeIcon icon={faQuestionCircle} />,
+                label: 'Knowledge',
+              },
+              {
+                key: '/user/integration',
+                icon: <FontAwesomeIcon icon={faPlug} />,
+                label: 'Integration',
+              },
+              {
+                key: '/user/wallet',
+                icon: <FontAwesomeIcon icon={faWallet} />,
+                label: 'Wallet',
+              },
+            ]}
+          />
+        </Col>
+      </Row>
 
       {/* Settings & Others */}
-      <div>
-        <p className='px-7 pt-3 text-gray-500 text-xs text-bold'>SETTINGS</p>
-        <Menu
-          mode="inline"
-          onClick={handleClick}
-          items={[
-            {
-              key: 'settings-parent',
-              icon: <SettingOutlined />,
-              label: 'Settings',
-              children: [
-                {
-                  key: '/settings/general',
-                  icon: <SettingOutlined />, // General settings still makes sense
-                  label: 'General',
-                },
-                {
-                  key: '/settings/profile',
-                  icon: <UserOutlined />, // Profile = user-related
-                  label: 'Profile',
-                },
-                {
-                  key: '/settings/chat-preference',
-                  icon: <MessageOutlined />, // Chat preference = chat/message
-                  label: 'Chat Preference',
-                }
-              ]
-            }
-          ]}
-        />
-      </div>
-      <div>
-        <Menu
-          mode="inline"
-          onClick={handleClick}
-          style={{ position: "absolute", bottom: 0, left: 0 }}
-          items={[
+      <Row>
+        <Col span={24} className='!pt-3'>
+          <Text className='!px-7 !text-gray-500 !text-xs !text-bold'>SETTINGS</Text>
+          <Menu
+            mode="inline"
+            className="!border-r-0"
+            onClick={handleClick}
+            items={[
+              {
+                key: 'settings-parent',
+                icon: <FontAwesomeIcon icon={faCog} />,
+                label: 'Settings',
+                children: [
+                  {
+                    key: '/settings/general',
+                    icon: <FontAwesomeIcon icon={faCog} />,
+                    label: 'General',
+                  },
+                  {
+                    key: '/settings/profile',
+                    icon: <FontAwesomeIcon icon={faUserAlt} />,
+                    label: 'Profile',
+                  },
+                  {
+                    key: '/settings/chat-preference',
+                    icon: <FontAwesomeIcon icon={faComment} />,
+                    label: 'Chat Preference',
+                  }
+                ]
+              }
+            ]}
+          />
+        </Col>
+      </Row>
+      <Menu
+        mode="inline"
+        className="!border-r-0"
+        onClick={handleClick}
+        style={{ position: "absolute", bottom: 0, left: 0 }}
+        items={[
 
-            {
-              key: '/help',
-              icon: <QuestionCircleOutlined />,
-              label: 'Help',
-            },
-            {
-              key: '/logout',
-              icon: <LogoutOutlined style={{ color: "red" }} />,
-              label: <p className='text-red-400 font-bold'>Logout</p>,
-            },
-          ]}
-        />
-      </div>
+          {
+            key: '/help',
+            icon: <FontAwesomeIcon icon={faQuestionCircle} />,
+            label: 'Help',
+          },
+          {
+            key: '/logout',
+            icon: <FontAwesomeIcon icon={faSignOut} className='!text-red-600' />,
+            label: <p className='text-red-400 font-bold'>Logout</p>,
+          },
+        ]}
+      />
     </Drawer>
   )
 }

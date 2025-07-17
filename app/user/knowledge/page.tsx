@@ -8,112 +8,154 @@ import {
     SortAscendingOutlined,
     PlusCircleFilled
 } from '@ant-design/icons';
+import type { Knowledge } from '@/types/knowledge';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import PrimaryButton from '@/components/ui/PrimaryButton';
+import { Flex, Row, Col, Tag, Button, Table, Layout, Image, Typography } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import { getAllKnowledge } from '@/app/api/user/knowledgeService';
 
-type SourcePersonaItem = {
-    id: number;
-    persona_name: string;
-    knowledge_source: string[];
-}
+const { Text, Title } = Typography;
 
-const sourcePersonas: SourcePersonaItem[] = [
+const columns: ColumnsType<Knowledge> = [
     {
-        id: 1,
-        persona_name: "Bella",
-        knowledge_source: ["Refund Policy", "Pricing SOP"],
+        title: (
+            <Text className="flex items-center gap-1">
+                Knowledge Source <SortAscendingOutlined className="text-xs text-gray-400" />
+            </Text>
+        ),
+        dataIndex: 'name',
+        key: 'name'
     },
     {
-        id: 2,
-        persona_name: "Rafiq",
-        knowledge_source: ["Refund Policy", "Pricing SOP"],
+        title: (
+            <Text className="flex items-center gap-1">
+                AI Persona <SortAscendingOutlined className="text-xs text-gray-400" />
+            </Text>
+        ),
+        dataIndex: 'personas',
+        key: 'personas',
+        render: (_: any, record: Knowledge) => {
+            if (!record.personas?.length) return '-';
+
+            return (
+                <Flex wrap>
+                    {record.personas.map((persona) => (
+                        <Tag key={persona.id} color="blue">
+                            {persona.name}
+                        </Tag>
+                    ))}
+                </Flex>
+            );
+        },
     },
     {
-        id: 3,
-        persona_name: "Lina",
-        knowledge_source: ["Response Templates", "Customer FAQ"],
-    }
-];
+        title: 'Action',
+        key: 'action',
+        align: 'center' as const,
+        render: (_: any, record: Knowledge) => (
+            <Flex justify="center">
+                <Button type="text" icon={<EditOutlined />} />
+                <Button type="text" icon={<EyeOutlined />} />
+            </Flex>
+        ),
+    },
+]
 
 const Knowledge: React.FC = () => {
+
+    const { data: knowledges, error, isLoading } = useQuery<Knowledge[]>({
+        queryKey: ["getAllKnowledge"],
+        queryFn: () => getAllKnowledge()
+    })
+
+    if (isLoading) {
+        return <p>Loading...</p>
+    }
+
+    if (!knowledges) {
+        return <p></p>
+    }
+
     return (
         <main className="flex flex-col bg-white h-full">
-            <PageTitle title="KNOWLEDGE SOURCES" />
-            {sourcePersonas.length > 0 ? <KnowledgeList /> : <EmptyKnowledgeIntro />}
+            <PageTitle>KNOWLEDGE SOURCES</PageTitle>
+            {knowledges.length > 0 ? <KnowledgeList knowledgeData={knowledges} /> : <EmptyKnowledgeIntro />}
         </main>
     );
 };
 
 const EmptyKnowledgeIntro: React.FC = () => {
+
+    const router = useRouter();
+
     return (
-        <div className="flex flex-col px-6 flex-1 justify-center items-center">
-            <div
-                className="w-full max-w-md text-center border-2 border-cyan-500 rounded-lg px-6 py-10 shadow-lg"
-                style={{ boxShadow: '0 10px 100px 30px rgba(59, 130, 246, 0.3)' }}
-            >
-                <p className="text-lg font-semibold mb-2 text-gray-800">NO SOURCE ADDED YET</p>
-                <p className="text-sm text-gray-600 mb-4">Get started by adding your first knowledge source</p>
+        <Flex vertical flex={1} justify="center" align="center">
+            <Row justify="center" style={{ width: '100%', padding: '0 24px' }}>
+                <Col xs={24} sm={20} md={16} lg={12} xl={8}>
+                    <Flex
+                        vertical
+                        align="center"
+                        className="!text-center"
+                        style={{
+                            border: '2px solid #06b6d4', // cyan-500
+                            borderRadius: 12,
+                            padding: '40px 24px',
+                            boxShadow: '0 10px 100px 30px rgba(59, 130, 246, 0.3)',
+                            background: '#fff',
+                        }}
+                    >
+                        <Title level={5} style={{ color: '#1f2937', marginBottom: 8 }}>
+                            NO SOURCE ADDED YET
+                        </Title>
 
-                <img
-                    src="/ruccan_logo.png"
-                    alt="Ruccan Logo"
-                    className="mx-auto mb-6"
-                    width={150}
-                    height={150}
-                />
+                        <Text type="secondary" style={{ marginBottom: 24 }}>
+                            Get started by adding your first knowledge source
+                        </Text>
 
-                <button className="w-fit rounded text-xs px-4 py-2 bg-[#369cc1] hover:bg-[#82c7d7] cursor-pointer text-white font-bold shadow transition-all duration-200">
-                    ADD FIRST SOURCE
-                </button>
-            </div>
-        </div>
+                        <Image
+                            src="/ruccan_logo2.png"
+                            alt="Ruccan Logo"
+                            width={150}
+                            preview={false}
+                            style={{ marginBottom: 24 }}
+                        />
+
+                        <PrimaryButton onClick={()=>{router.push("/user/knowledge/create")}}>
+                            ADD FIRST SOURCE
+                        </PrimaryButton>
+                    </Flex>
+                </Col>
+            </Row>
+        </Flex>
     );
 };
 
-const KnowledgeList: React.FC = () => {
+interface KnowledgeListProps {
+    knowledgeData: Knowledge[] | undefined;
+}
+
+const KnowledgeList: React.FC<KnowledgeListProps> = ({ knowledgeData }) => {
+
+    const router = useRouter();
+
     return (
-        <div className="overflow-x-auto">
-            <div className="flex px-2 py-4">
-                <button className="w-fit rounded text-xs px-4 py-2 bg-[#369cc1] hover:bg-[#82c7d7] cursor-pointer text-white font-bold shadow transition-all duration-200 ms-auto">
+        <Layout className="!overflow-x-auto">
+            <Flex className='!px-2 !py-4 !justify-end'>
+                <PrimaryButton onClick={() => { router.push('knowledge/create') }}>
                     <PlusCircleFilled /> Add Source
-                </button>
-            </div>
-            <table className="w-full text-sm text-left text-gray-700 border-collapse">
-                <thead>
-                    <tr className="text-black">
-                        <th className="px-4 py-3 font-medium border border-gray-200">
-                            <div className="flex items-center gap-1 text-xs min-w-[80px]">
-                                AI persona <SortAscendingOutlined className="text-xs text-gray-400" />
-                            </div>
-                        </th>
-                        <th className="px-4 py-3 font-medium border border-gray-200">
-                            <div className="flex items-center gap-1 text-xs">
-                                Knowledge Sources <SortAscendingOutlined className="text-xs text-gray-400" />
-                            </div>
-                        </th>
-                        <th className="px-4 py-3 font-medium text-center border border-gray-200">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {sourcePersonas.map((item) => (
-                        <tr key={item.id} className="border-t border-gray-200 hover:bg-gray-50">
-                            <td className="px-4 py-3">{item.persona_name}</td>
-                            <td className="px-4 py-3">
-                                {item.knowledge_source.join(', ')}
-                            </td>
-                            <td className="px-4 py-3 text-center">
-                                <div className="flex justify-center items-center gap-3 text-gray-600">
-                                    <button className="hover:text-blue-500" aria-label="Edit" title="Edit">
-                                        <EditOutlined />
-                                    </button>
-                                    <button className="hover:text-green-600" aria-label="View" title="View">
-                                        <EyeOutlined />
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                </PrimaryButton>
+            </Flex>
+            <Table
+                className="[&_.ant-table-cell]:!p-2"
+                rowKey="id"
+                columns={columns}
+                dataSource={knowledgeData}
+                pagination={false}
+                bordered
+            />
+        </Layout>
     );
 };
 

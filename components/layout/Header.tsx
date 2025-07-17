@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { MenuOutlined } from '@ant-design/icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faBell } from '@fortawesome/free-solid-svg-icons'
 import { Button, Space } from 'antd'
 import Sidebar from '@/components/layout/Sidebar'
 import BellNotification from '@/components/ui/BellNotification'
@@ -14,7 +16,7 @@ const Header = () => {
       {/* Sidebar Trigger */}
       <Button
         type="text"
-        icon={<MenuOutlined />}
+        icon={<FontAwesomeIcon icon={faBars} />}
         onClick={() => setShowSideBar(true)}
         className="text-lg text-gray-700"
       />
@@ -24,7 +26,7 @@ const Header = () => {
 
       {/* Logo + Brand */}
       <div className="flex items-center ms-3">
-        <img src="/ruccan_logo.png" alt="Ruccan Logo" className="h-8 w-auto" />
+        <img src="/ruccan_logo.png" alt="Ruccan Logo" className="h-6 w-auto" />
         <span className="text-black font-bold text-lg ms-3">Ruccan.com</span>
       </div>
 

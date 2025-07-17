@@ -7,7 +7,7 @@ const InputList: React.FC = () => {
     <div className='mt-2'>
       <Form.List name="weblinks">
         {(fields, { add, remove }) => (
-          <Space direction="vertical" style={{ width: '100%' }}>
+          <div style={{ width: '100%' }}>
             {fields.map(({ key, name, ...restField }) => (
               <Space key={key} align="baseline" style={{ width: '100%' }}>
                 <Form.Item
@@ -37,7 +37,7 @@ const InputList: React.FC = () => {
                 </Button>
               </Form.Item>
             )}
-          </Space>
+          </div>
         )}
       </Form.List>
     </div>

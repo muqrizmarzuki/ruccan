@@ -53,13 +53,9 @@ export const dummyPersonaData: Persona[] = [
 ]
 
 export const getPersona = async (): Promise<Persona[]> => {
-
     return dummyPersonaData
-
 }
 
 export const getPersonaStyle = async (): Promise<PersonaStyle[]> => {
-
     return dummyPersonaStyle
-
 }

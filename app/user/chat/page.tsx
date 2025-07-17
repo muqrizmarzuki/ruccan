@@ -1,64 +1,105 @@
 "use client";
 
 import React from 'react';
-import { Layout } from 'antd';
-import type { Chat } from '@/types/chat';
-import PageTitle from '@/components/ui/PageTitle';
+import { Flex, Typography, Layout } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+
+import PageTitle from '@/components/ui/PageTitle';
+import type { Chat } from '@/types/chat';
 import { getAllChat } from '@/app/api/user/chatService';
 
-const Chat: React.FC = () => {
+const { Text } = Typography;
 
+const ChatPage: React.FC = () => {
     const router = useRouter();
-    
-    const {data:chatList, error, isLoading} = useQuery<Chat[] | undefined | null>({
-        queryKey:["getAllChat"],
-        queryFn: () => getAllChat()
-    })
+
+    // Fetch chat data using React Query
+    const {
+        data: chatList = [],
+        error,
+        isLoading,
+    } = useQuery<Chat[] | undefined | null>({
+        queryKey: ['getAllChat'],
+        queryFn: getAllChat,
+    });
+
+    // Show loading state while fetching data
+    if (isLoading) {
+        return (
+            <Layout>
+                <PageTitle>RUCCAN CHAT</PageTitle>
+                {/* You can drop in a Skeleton or Spinner here later */}
+            </Layout>
+        );
+    }
+
+    // Optional: handle unexpected empty/null data
+    if (!chatList || chatList.length === 0) {
+        return (
+            <Layout>
+                <PageTitle>RUCCAN CHAT</PageTitle>
+                <Flex vertical justify="center" align="center">
+                    <Text type="secondary">No chat data available.</Text>
+                </Flex>
+            </Layout>
+        );
+    }
 
     return (
         <Layout>
-            <PageTitle title='RUCCAN CHAT' />
-            <div className="flex flex-col h-screen w-full bg-white">
-                {/* Chat List */}
-                {chatList?.map((chat) => {
+            <PageTitle>RUCCAN CHAT</PageTitle>
 
-                    const lastChat = chat.chatList[chat.chatList.length - 1] 
+            {/* Chat List */}
+            <Flex vertical className="!w-full !bg-white overflow-y-auto">
+                {chatList.map((chat) => {
+                    // Get last message from chat
+                    const lastChat = chat.chatList?.[chat.chatList.length - 1];
 
-                    const unreadCount = chat.chatList.reduce((accum, chatItem) => {
-                        return chatItem.read ? accum : accum + 1;
-                    }, 0);
+                    // Count unread messages
+                    const unreadCount = chat.chatList?.reduce(
+                        (acc, item) => (!item.read ? acc + 1 : acc),
+                        0
+                    ) ?? 0;
 
                     return (
-                        <div
+                        <Flex
                             key={chat.id}
-                            className="px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex flex-col gap-1"
-                            onClick={()=>{
-                                router.push(`/user/chat/${chat.id}`)
-                            }}
+                            vertical
+                            gap={4}
+                            className="!px-4 !py-3 !border-b !border-gray-100 hover:!bg-gray-50 !cursor-pointer"
+                            onClick={() => router.push(`/user/chat/${chat.id}`)}
                         >
-                            <div className="flex justify-between items-center">
-                                <span className="font-medium text-gray-900">{chat.name}</span>
-                                <span className="text-xs text-gray-500">{lastChat.time}</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <p className="text-sm text-gray-600 truncate max-w-[250px]">
-                                    {lastChat.text}
-                                </p>
-                                {(unreadCount > 0) && (
-                                    <span className="bg-[#72c4ff] text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                        {unreadCount}
-                                    </span>
-                                )}
+                            {/* Chat Name & Time */}
+                            <Flex justify="space-between" align="center">
+                                <Text className="!font-medium text-gray-900">{chat.name}</Text>
+                                <Text className="!text-xs text-gray-500">
+                                    {lastChat?.time ?? ''}
+                                </Text>
+                            </Flex>
 
-                            </div>
-                        </div>
-                    )
+                            {/* Last Message & Unread Count */}
+                            <Flex justify="space-between" align="center">
+                                <Text
+                                    className="!text-sm text-gray-600 truncate max-w-[250px]"
+                                    title={lastChat?.text}
+                                >
+                                    {lastChat?.text ?? 'No messages yet.'}
+                                </Text>
+
+                                {/* Show unread count if > 0 */}
+                                {unreadCount > 0 && (
+                                    <Text className="!bg-[#72c4ff] !text-white !text-xs !font-bold px-2 py-0.5 !rounded-full">
+                                        {unreadCount}
+                                    </Text>
+                                )}
+                            </Flex>
+                        </Flex>
+                    );
                 })}
-            </div>
+            </Flex>
         </Layout>
     );
 };
 
-export default Chat;
+export default ChatPage;
