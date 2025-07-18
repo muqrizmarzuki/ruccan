@@ -1,49 +1,28 @@
 'use client'
 
 import React from 'react'
-import { Layout, Flex, Row, Col } from 'antd'
-import Header from '@/components/layout/Header'
-import Navigation from '@/components/layout/Navigation'
-import { usePathname } from 'next/navigation'
-
+import { Layout, Flex } from 'antd'
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
-
-  const pathname = usePathname()
-
-  const skipLayoutPrefixes = [
-    '/user/chat/',
-    '/user/persona/create',
-    '/user/knowledge/create',
-    '/user/settings/profile',
-    '/user/payment',
-    '/user/payment'
-  ];
-
-  const shouldSkipLayout = skipLayoutPrefixes.some(prefix =>
-    pathname.startsWith(prefix)
-  );
-
-  if (shouldSkipLayout) {
-    return <>{children}</>;
-  }
-
   return (
-    <Layout className="!w-full !max-w-[430px] !mx-auto !relative !bg-white">
-      <Flex vertical className='!h-screen'>
-        <Row>
-          <Col span={24}>
-            <Header />
-          </Col>
-        </Row>
+    <Layout className="!w-full !max-w-[430px] !mx-auto !relative overflow-hidden">
+      {/* Background Image Layer */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center blur-sm scale-105"
+        style={{
+          backgroundImage: "url('/ruccan_bg.jpg')", // Change this to your image path
+        }}
+      />
 
-        <Row className='flex-1 overflow-y-scroll overflow-x-hidden'>
-          <Col span={24}>{children}</Col>
-        </Row>
-
-        <div>
-          <Navigation />
-        </div>
+      {/* Foreground Content */}
+      <Flex
+        vertical
+        style={{ minHeight: "100vh" }}
+        align="center"
+        justify="center"
+        className="relative z-10 !bg-gray-50/60 backdrop-blur-md !px-2 !py-10"
+      >
+        {children}
       </Flex>
     </Layout>
   );

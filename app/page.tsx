@@ -1,11 +1,16 @@
-'use client'
-import { useEffect } from "react"
+"use client";
 
-export default function HomePage() {
+import LoadingScreen from "@/components/layout/LoadingScreen";
+import React from "react";
+
+const MainPage: React.FC = () => {
+
+  React.useEffect(() => {
+    window.location.href = "/guest/login"
+  }, [])
 
 
-  return (
-    <div className="space-y-6">
-    </div>
-  )
-}
+  return <LoadingScreen />;
+};
+
+export default MainPage;
