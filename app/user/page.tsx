@@ -13,7 +13,7 @@ const { Title, Text } = Typography;
 const page = () => {
     return (
         <Layout className="!space-y-4 !bg-white">
-            <PageTitle title="DASHBOARD" />
+            <PageTitle>DASHBOARD</PageTitle>
 
             {/* Plan Details */}
             <Row>

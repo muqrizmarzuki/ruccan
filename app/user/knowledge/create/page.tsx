@@ -202,7 +202,6 @@ const CreatePersona: React.FC = () => {
                             </Col>
                         </Row>
 
-
                     </Form>
                 </Col>
             </Row>

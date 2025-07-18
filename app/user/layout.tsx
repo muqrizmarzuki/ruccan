@@ -14,7 +14,9 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const skipLayoutPrefixes = [
     '/user/chat/',
     '/user/persona/create',
-    '/user/knowledge/create'
+    '/user/knowledge/create',
+    '/user/settings/profile',
+    '/user/payment'
   ];
 
   const shouldSkipLayout = skipLayoutPrefixes.some(prefix =>

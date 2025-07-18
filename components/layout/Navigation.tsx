@@ -19,7 +19,7 @@ const navItems = [
         label: 'Chat',
     },
     {
-        key: '/user/profile',
+        key: '/user/settings/profile',
         icon: <UserOutlined />,
         label: 'Profile',
     },

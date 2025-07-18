@@ -13,6 +13,8 @@ import type { RcFile } from 'antd/es/upload';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
+const { Text, Title } = Typography
+
 const CreatePersona: React.FC = () => {
 
     const [name, setName] = useState<string | undefined>("")
@@ -66,7 +68,6 @@ const CreatePersona: React.FC = () => {
         // prevent automatic upload
         return false;
     };
-
 
     return (
         <AltLayout header={<PageTitle backButton={true}>Create Persona</PageTitle>}>
@@ -145,66 +146,66 @@ const CreatePersona: React.FC = () => {
 
                         <Form.Item label={<p className='font-bold'>Persona Training Center</p>}>
                             <Flex vertical gap={10}>
-                                <Flex gap={10} className='!items-center'>
+                                <Flex gap={10}>
                                     <Switch
                                         checked={enabled.isManualKnowledgeEntry}
                                         onChange={(checked) =>
                                             setEnabled({ ...enabled, isManualKnowledgeEntry: checked })
                                         }
                                     />
-                                    <span className='font-bold'>Manual Knowledge Entry</span>
+                                    <Text className='font-bold'>Manual Knowledge Entry</Text>
                                 </Flex>
-                                <div className='flex items-center gap-2'>
+                                <Flex gap={10}>
                                     <Switch
                                         checked={enabled.isUploadTextDocument}
                                         onChange={(checked) =>
                                             setEnabled({ ...enabled, isUploadTextDocument: checked })
                                         }
                                     />
-                                    <span className='font-bold'>Upload Text Document</span>
-                                </div>
-                                <div className='flex items-center gap-2'>
+                                    <Text className='font-bold'>Upload Text Document</Text>
+                                </Flex>
+                                <Flex gap={10}>
                                     <Switch
                                         checked={enabled.isImportWebLink}
                                         onChange={(checked) =>
                                             setEnabled({ ...enabled, isImportWebLink: checked })
                                         }
                                     />
-                                    <span className="font-bold">
+                                    <Text className="font-bold">
                                         Import from Web Link{' '}
                                         <Tag color="blue" className="font-semibold text-xs px-2 py-[2px] !rounded-full">
                                             Premium
                                         </Tag>
-                                    </span>
-                                </div>
-                                <div className='flex items-center gap-2'>
+                                    </Text>
+                                </Flex>
+                                <Flex gap={10}>
                                     <Switch
                                         checked={enabled.isDallEImageGen}
                                         onChange={(checked) =>
                                             setEnabled({ ...enabled, isDallEImageGen: checked })
                                         }
                                     />
-                                    <span className="font-bold">
+                                    <Text className="font-bold">
                                         DALL-E Image Generation{' '}
                                         <Tag color="blue" className="font-semibold text-xs px-2 py-[2px] !rounded-full">
                                             Premium
                                         </Tag>
-                                    </span>
-                                </div>
-                                <div className='flex items-center gap-2'>
+                                    </Text>
+                                </Flex>
+                                <Flex gap={10}>
                                     <Switch
                                         checked={enabled.isSOPAutoLearn}
                                         onChange={(checked) =>
                                             setEnabled({ ...enabled, isSOPAutoLearn: checked })
                                         }
                                     />
-                                    <span className="font-bold">
+                                    <Text className="font-bold">
                                         Enable SOP Auto-Learning{' '}
                                         <Tag color="blue" className="font-semibold text-xs px-2 py-[2px] !rounded-full">
                                             Premium
                                         </Tag>
-                                    </span>
-                                </div>
+                                    </Text>
+                                </Flex>
                             </Flex>
                         </Form.Item>
 
