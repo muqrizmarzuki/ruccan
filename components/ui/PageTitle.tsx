@@ -38,7 +38,7 @@ const PageTitle: React.FC<PageTitleProps> = ({
                     icon={<FontAwesomeIcon icon={faArrowLeft} />}
                     onClick={() => router.back()}
                     style={{ fontSize: 20 }}
-                    className="!text-white"
+                className="!text-white"
                 />
             ) : (
                 <div style={{ width: 40 }} /> // Placeholder to keep spacing

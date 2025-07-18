@@ -1,14 +1,15 @@
 'use client';
 import { useState } from 'react';
 import type { Chat } from '@/types/chat';
-import { Flex, Layout, Row, Col, Input, Space, Upload, Button } from 'antd';
+import { Flex, Layout, Row, Col, Input, Space, Upload, Button, Result } from 'antd';
 import PageTitle from '@/components/ui/PageTitle';
 import Navigation from '@/components/layout/Navigation'
 import { useParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query';
 import { getChat } from '@/app/api/user/chatService';
 import { PaperClipOutlined, SendOutlined } from '@ant-design/icons'
-
+import LoadingScreen from '@/components/layout/LoadingScreen';
+import ErrorPage from '@/components/layout/ErrorPage';
 
 const ChatPage: React.FC = () => {
 
@@ -22,13 +23,9 @@ const ChatPage: React.FC = () => {
 
     const [enabled, setEnabled] = useState(false);
 
-    if (isLoading) {
-        return <p>Loading...</p>
-    }
+    if (isLoading) return <LoadingScreen />
 
-    if (error) {
-        return <p>Loading...</p>
-    }
+    if (error) return <ErrorPage/>
 
     return (
         <Layout className="!w-full !max-w-[430px] !mx-auto !relative !bg-white">

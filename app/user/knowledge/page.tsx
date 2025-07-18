@@ -15,6 +15,7 @@ import PrimaryButton from '@/components/ui/PrimaryButton';
 import { Flex, Row, Col, Tag, Button, Table, Layout, Image, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { getAllKnowledge } from '@/app/api/user/knowledgeService';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
 const { Text, Title } = Typography;
 
@@ -70,9 +71,8 @@ const Knowledge: React.FC = () => {
         queryFn: () => getAllKnowledge()
     })
 
-    if (isLoading) {
-        return <p>Loading...</p>
-    }
+    // Show loading state while fetching data
+    if (isLoading) return <LoadingScreen/>
 
     if (!knowledges) {
         return <p></p>

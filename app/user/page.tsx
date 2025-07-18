@@ -7,10 +7,14 @@ import SectionTitle from '@/components/ui/SectionTitle';
 import PageTitle from '@/components/ui/PageTitle';
 import LoadingMeter from '@/components/ui/LoadingMeter';
 import PrimaryButton from '@/components/ui/PrimaryButton';
+import { useRouter } from 'next/navigation';
 
 const { Title, Text } = Typography;
 
 const page = () => {
+
+    const router = useRouter()
+
     return (
         <Layout className="!space-y-4 !bg-white">
             <PageTitle>DASHBOARD</PageTitle>
@@ -38,8 +42,8 @@ const page = () => {
                         </Col>
 
                         <Col span={24} className='mb-2'>
-                            <PrimaryButton onClick={()=>{}}>
-                                Upgrade Button <RightOutlined />
+                            <PrimaryButton onClick={()=>{ router.push("user/pricing") }}>
+                                Upgrade Plan <RightOutlined />
                             </PrimaryButton>
                         </Col>
 

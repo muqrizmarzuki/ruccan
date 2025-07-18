@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import PageTitle from '@/components/ui/PageTitle';
 import type { Chat } from '@/types/chat';
 import { getAllChat } from '@/app/api/user/chatService';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
 const { Text } = Typography;
 
@@ -25,14 +26,7 @@ const ChatPage: React.FC = () => {
     });
 
     // Show loading state while fetching data
-    if (isLoading) {
-        return (
-            <Layout>
-                <PageTitle>RUCCAN CHAT</PageTitle>
-                {/* You can drop in a Skeleton or Spinner here later */}
-            </Layout>
-        );
-    }
+    if (isLoading) return <LoadingScreen/>
 
     // Optional: handle unexpected empty/null data
     if (!chatList || chatList.length === 0) {

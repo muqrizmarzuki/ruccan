@@ -1,15 +1,17 @@
 "use client";
 
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import PageTitle from '@/components/ui/PageTitle';
 import { Typography, Button, Input, Form, Select, Switch, Flex, Row, Col } from 'antd';
 import Link from 'next/link';
-import { BankFilled, WalletFilled } from '@ant-design/icons';
+
 import type { PaymentType } from '@/types/payment';
 import { useQuery } from '@tanstack/react-query';
 import { getPaymentType } from '@/app/api/general/paymentService';
 import AltLayout from '@/components/layout/AltLayout';
 import PrimaryButton from '@/components/ui/PrimaryButton';
+import IconCard from '@/components/ui/IconCard';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
 const { Text, Title } = Typography;
 
@@ -18,6 +20,7 @@ const CreatePersona: React.FC = () => {
   const [selectedPaymentID, setSelectedPaymentID] = useState<number | undefined>();
   const [companyName, setCompanyName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
+  const [isDefault, setIsDefault] = useState(false);
   const [cvc, setCvc] = useState('');
 
   // Fetch payment types using React Query
@@ -26,13 +29,8 @@ const CreatePersona: React.FC = () => {
     queryFn: getPaymentType
   });
 
-  const renderIcon = useCallback((nameId: string) => {
-    if (nameId === "card") return <WalletFilled className='!text-white !text-xl' />
-    else if (nameId === "bank") return <BankFilled className='!text-white !text-xl' />
-    else return <></>
-  }, [])
-
-  if (isLoading) return <p>Loading...</p>;
+  // Show loading state while fetching data
+  if (isLoading) return <LoadingScreen/>
 
   return (
     <AltLayout header={<PageTitle backButton={true}>PAYMENT</PageTitle>}>
@@ -49,20 +47,7 @@ const CreatePersona: React.FC = () => {
 
           {/* Payment type selection */}
           <Flex wrap gap={8}>
-            {paymentType?.map(({ id, type, description, icon_id }) => (
-              <div
-                key={id}
-                className={`
-                  ${selectedPaymentID === id ? 'bg-blue-950' : 'bg-gray-400'} 
-                  hover:bg-blue-950 transition-all ease-in-out 
-                  rounded-lg p-4 max-w-[160px] cursor-pointer
-                `}
-                onClick={() => setSelectedPaymentID(id)}
-              >
-                {renderIcon(icon_id)}
-                <Text className='!text-xs !text-white !block'>Transfer via card number</Text>
-              </div>
-            ))}
+            {paymentType?.map(({ id, type, description, icon_id }) => <IconCard key={id} active={selectedPaymentID === id} iconName={icon_id} text={description} handleClick={() => { setSelectedPaymentID(id)}} />)}
           </Flex>
 
           {/* Payment form */}
@@ -139,7 +124,7 @@ const CreatePersona: React.FC = () => {
                     {/* Default payment switch */}
                     <Form.Item>
                       <Flex gap={4}>
-                        <Switch checked={true} onChange={() => { }} />
+                        <Switch checked={isDefault} onChange={setIsDefault} />
                         <Text className='!text-xs font-semibold'>SET AS DEFAULT</Text>
                       </Flex>
                     </Form.Item>

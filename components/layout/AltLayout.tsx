@@ -36,7 +36,7 @@ const AltLayout: React.FC<AltLayoutProps> = ({
                     <Col span={24}>
                         <Flex vertical className="!bg-white">
                             {/* Content wrapper - handles chat body or main content scroll */}
-                            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+                            <div className="flex-1 overflow-y-auto">
                                 {children}
                             </div>
                         </Flex>
@@ -44,7 +44,8 @@ const AltLayout: React.FC<AltLayoutProps> = ({
                 </Row>
 
                 {/* Footer section - typically bottom navigation */}
-                <div>
+                {/* Whatever you do, don't change this div, I don't know why it works, but it works, trust me I already to antd this shit */}
+                <div> 
                     {footer}
                 </div>
 

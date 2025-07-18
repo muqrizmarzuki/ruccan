@@ -52,7 +52,7 @@ const CreatePersona: React.FC = () => {
     return (
         <AltLayout header={<PageTitle backButton={true}>ADD KNOWLEDGE SOURCE</PageTitle>}>
             <Row>
-                <Col span={24} className='!px-4'>
+                <Col span={24} className='!p-4'>
                     <Form layout="vertical">
 
                         <Row>

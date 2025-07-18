@@ -128,17 +128,17 @@ const Sidebar = ({ open = false, setOpen = () => { } }: SidebarProps) => {
                 label: 'Settings',
                 children: [
                   {
-                    key: '/settings/general',
+                    key: 'user/settings/general',
                     icon: <FontAwesomeIcon icon={faCog} />,
                     label: 'General',
                   },
                   {
-                    key: '/settings/profile',
+                    key: 'user/settings/profile',
                     icon: <FontAwesomeIcon icon={faUserAlt} />,
                     label: 'Profile',
                   },
                   {
-                    key: '/settings/chat-preference',
+                    key: 'user/settings/chat-preference',
                     icon: <FontAwesomeIcon icon={faComment} />,
                     label: 'Chat Preference',
                   }
@@ -161,7 +161,7 @@ const Sidebar = ({ open = false, setOpen = () => { } }: SidebarProps) => {
             label: 'Help',
           },
           {
-            key: '/logout',
+            key: '/guest',
             icon: <FontAwesomeIcon icon={faSignOut} className='!text-red-600' />,
             label: <p className='text-red-400 font-bold'>Logout</p>,
           },

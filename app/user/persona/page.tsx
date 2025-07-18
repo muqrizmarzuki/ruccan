@@ -15,8 +15,9 @@ import PrimaryButton from '@/components/ui/PrimaryButton';
 import { Flex, Row, Col, Tag, Button, Table, Layout, Image, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useRouter } from 'next/navigation';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
-const {Text, Title} = Typography;
+const { Text, Title } = Typography;
 
 const columns: ColumnsType<Persona> = [
     {
@@ -74,9 +75,8 @@ const PersonaPage: React.FC = () => {
         queryFn: () => getPersona()
     })
 
-    if (isLoading) {
-        return <p>Loading...</p>
-    }
+    // Show loading state while fetching data
+    if (isLoading) return <LoadingScreen />
 
     if (!personas) {
         return <p></p>

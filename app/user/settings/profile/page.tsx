@@ -31,10 +31,9 @@ const ProfileSettings: React.FC = () => {
 
     return (
         <AltLayout header={<PageTitle backButton={true}>Profile Settings</PageTitle>}>
-            <Row justify="center">
+            <Row justify="center" className='!p-8'>
                 <Col xs={24} sm={20} md={16} lg={12}>
                     <Form layout="vertical" className="px-4 py-6 space-y-10">
-
                         <Row>
                             <Col span={24}>
                                 <Title level={5} className="!mb-3">Profile Photo</Title>

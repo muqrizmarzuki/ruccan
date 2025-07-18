@@ -12,6 +12,7 @@ import { getPersonaStyle } from '@/app/api/user/personaService';
 import type { RcFile } from 'antd/es/upload';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
 const { Text, Title } = Typography
 
@@ -69,9 +70,12 @@ const CreatePersona: React.FC = () => {
         return false;
     };
 
+    // Show loading state while fetching data
+    if (isLoading) return <LoadingScreen/>
+
     return (
         <AltLayout header={<PageTitle backButton={true}>Create Persona</PageTitle>}>
-            <Row className='px-4'>
+            <Row className='!p-4'>
                 <Col span={24}>
                     <Form layout="vertical">
                         <Form.Item label={<p className='font-bold'>Persona Name</p>}>

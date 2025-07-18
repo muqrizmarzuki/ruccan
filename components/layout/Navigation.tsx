@@ -9,7 +9,7 @@ import { useRouter, usePathname } from 'next/navigation'
 
 const navItems = [
     {
-        key: '/user/',
+        key: '/user',
         icon: <HomeOutlined />,
         label: 'Home',
     },

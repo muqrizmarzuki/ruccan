@@ -1,21 +1,52 @@
-// app/layout.tsx
-import 'antd/dist/reset.css' // or 'antd/dist/antd.css' for older versions
-import './globals.css'
+'use client'
 
-import type { Metadata } from 'next'
-
-import { Home, MessageCircle, User } from 'lucide-react'
+import React from 'react'
+import { Layout, Flex, Row, Col } from 'antd'
 import Header from '@/components/layout/Header'
+import Navigation from '@/components/layout/Navigation'
+import { usePathname } from 'next/navigation'
 
-export const metadata: Metadata = {
-  title: 'Mobile App',
-  description: 'Responsive app layout with sidebar',
-}
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
+
+  const pathname = usePathname()
+
+  const skipLayoutPrefixes = [
+    '/user/chat/',
+    '/user/persona/create',
+    '/user/knowledge/create',
+    '/user/settings/profile',
+    '/user/payment',
+    '/user/payment'
+  ];
+
+  const shouldSkipLayout = skipLayoutPrefixes.some(prefix =>
+    pathname.startsWith(prefix)
+  );
+
+  if (shouldSkipLayout) {
+    return <>{children}</>;
+  }
 
   return (
-    <div className="w-full max-w-[430px] min-h-screen flex flex-col justify-between relative bg-white shadow-xl">
-    </div>
-  )
+    <Layout className="!w-full !max-w-[430px] !mx-auto !relative !bg-white">
+      <Flex vertical className='!h-screen'>
+        <Row>
+          <Col span={24}>
+            <Header />
+          </Col>
+        </Row>
+
+        <Row className='flex-1 overflow-y-scroll overflow-x-hidden'>
+          <Col span={24}>{children}</Col>
+        </Row>
+
+        <div>
+          <Navigation />
+        </div>
+      </Flex>
+    </Layout>
+  );
 }
+
+export default AppLayout;

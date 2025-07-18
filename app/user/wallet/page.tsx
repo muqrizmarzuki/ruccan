@@ -31,8 +31,7 @@ const Wallet: React.FC = () => {
 
             <Row justify="center" className="mt-6">
                 <Col xs={24} sm={20} md={16} lg={12}>
-                    <Form layout="vertical">
-
+                    <Form layout="vertical" className='!px-5'>
                         {/* 1. Balance + History Link */}
                         <Form.Item>
                             <Space className="w-full justify-between" align="center">
@@ -87,18 +86,17 @@ const Wallet: React.FC = () => {
                                 </Col>
                             </Row>
                         </Form.Item>
-
-                        {/* 4. Current Plan Display */}
+                    </Form>
+                    {/* 4. Current Plan Display */}
                         <Card
                             bordered
-                            className="border-blue-700 border-2"
+                            className="!border-blue-700 !rounded-none"
                             bodyStyle={{ padding: '12px' }}
                         >
                             <Text>
                                 <Text strong>Current Plan:</Text> Premium (RM25/Month)
                             </Text>
                         </Card>
-                    </Form>
                 </Col>
             </Row>
         </main>
