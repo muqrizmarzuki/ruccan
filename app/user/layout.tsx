@@ -16,6 +16,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
     '/user/persona/create',
     '/user/knowledge/create',
     '/user/settings/profile',
+    '/user/payment',
     '/user/payment'
   ];
 

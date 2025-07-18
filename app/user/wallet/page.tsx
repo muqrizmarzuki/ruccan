@@ -29,16 +29,16 @@ const Wallet: React.FC = () => {
             {/* Page Header */}
             <PageTitle>Wallet</PageTitle>
 
-            <Row justify="center" className="mt-6 px-4">
+            <Row justify="center" className="mt-6">
                 <Col xs={24} sm={20} md={16} lg={12}>
-                    <Form layout="vertical" className="space-y-6">
+                    <Form layout="vertical">
 
                         {/* 1. Balance + History Link */}
                         <Form.Item>
                             <Space className="w-full justify-between" align="center">
                                 <Text strong>Current Balance</Text>
                                 <Link
-                                    href="/transaction-history"
+                                    href="/user/payment/transaction-history"
                                     className="text-blue-500 underline text-sm"
                                 >
                                     Transaction History
